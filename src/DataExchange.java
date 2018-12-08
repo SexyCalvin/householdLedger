@@ -36,4 +36,7 @@ public class DataExchange {
             e.printStackTrace();
         }
 	}
+	public void dataEditing() {
+		
+	}
 }
