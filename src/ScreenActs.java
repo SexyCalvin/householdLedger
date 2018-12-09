@@ -3,7 +3,6 @@ import java.awt.event.*;
 
 import java.io.*;
 
-import javax.swing.JTextField;
 import javax.swing.*;
 import java.text.*;
 import java.util.Calendar;
@@ -21,11 +20,6 @@ public class ScreenActs extends JFrame implements ActionListener{
 	
 	javax.swing.Timer timer;
 	
-	JLabel label1 = new JLabel("아이디");
-	JLabel label2 = new JLabel("패스워드");
-	JTextField txtId = new JTextField(20);
-	JTextField txtPwd = new JTextField(20);
-	
 	/*public void TimerDisplay() {
 		//time
 		timer = new javax.swing.Timer(1000, this);
@@ -37,11 +31,16 @@ public class ScreenActs extends JFrame implements ActionListener{
 	}*/
 	
 	public void LoginScreen() throws IOException {
+		JLabel label1 = new JLabel("아이디");
+		JLabel label2 = new JLabel("패스워드");
+		JTextField txtId = new JTextField(20);
+		JTextField txtPwd = new JTextField(20);
+		
 		setTitle("가계부 - 로그인");
 		//GridLayout grid = new GridLayout(2,3);
 		//setLayout(grid);
 		setSize(800, 450);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -75,6 +74,8 @@ public class ScreenActs extends JFrame implements ActionListener{
 		txtPwd.setForeground(Color.black);
 		
 		ActionListener listener = new ActionListener() {
+			private mainWindow mainWindow;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String id = txtId.getText();
@@ -87,6 +88,8 @@ public class ScreenActs extends JFrame implements ActionListener{
 						boolean isLogin = id.equals(dataExchange.accountGet(0))&&pwd.equals(dataExchange.accountGet(1));
 						if(isLogin) {
 							JOptionPane.showMessageDialog(null, "로그인 성공. 어서 오십시오, "+dataExchange.accountGet(0)+"님.");
+							dispose();
+							new mainWindow();
 						}
 					}
 				} catch (HeadlessException | IOException e1) {
@@ -107,14 +110,13 @@ public class ScreenActs extends JFrame implements ActionListener{
 		//contentPane.add(panel);
 		layeredPane.add(panel);
 		add(layeredPane);
+		
+		setResizable(false);
 		setVisible(true);
 	}
-	
-	public void mainScreen() {
-		
-	}
 
-	public void actionPerformed(ActionEvent e) {
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,5 +1,7 @@
 //this is a class about generating excel file, and reading
 import java.io.*;
+
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
@@ -27,19 +29,23 @@ public class DataExchange {
 				cell.setCellValue(j+1); //값 넣기
 				cell = row.createCell(0);
 				if(j==0) cell.setCellValue(i+1);
+				cell = row.createCell(2);
+				cell = row.createCell(3);
+				cell = row.createCell(4);
 			}
 		}
 		
 		row = sheet2.createRow(0);
 		cell = row.createCell(0);
-		cell.setCellValue("loglog");
+		cell.setCellValue("loglog"); //아이디설정
 		cell = row.createCell(1);
-		cell.setCellValue("pwdpwd");
+		cell.setCellValue("a"); //비밀번호설정
 		
 		try {
             File xlsFile = new File("D:/DataExcel.xls");
             FileOutputStream fileOut = new FileOutputStream(xlsFile);
             xlsWb.write(fileOut);
+            fileOut.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -47,7 +53,7 @@ public class DataExchange {
         }
 	}
 	
-	public String accountGet(int a) throws IOException {
+	public String accountGet(int a) throws IOException { //계정정보가져옴
 		//try {
 			FileInputStream file = new FileInputStream("D:/DataExcel.xls");
 			Workbook wb = new HSSFWorkbook(file);
@@ -72,10 +78,28 @@ public class DataExchange {
 		return null;
 	}
 	
-	public void dataReading() {
+	public String dataReading(int a, int b) throws IOException { //행렬값을가져옴
+		FileInputStream file = new FileInputStream("D:/DataExcel.xls");
+		Workbook wb = new HSSFWorkbook(file);
+		Sheet sheet1 = wb.getSheet("Data");
 		
+		Row row = sheet1.getRow(a);
+		Cell cell = row.getCell(b);
+		String value = cell.getStringCellValue() + "";
+		return value;
 	}
-	public void dataEditing() {
+	public void dataEditing(int a, int b, String str) throws EncryptedDocumentException, IOException { //행,렬,값 넣기
+		InputStream file = new FileInputStream("D:/DataExcel.xls");
+		Workbook wb = WorkbookFactory.create(file);
+		Sheet sheet1 = wb.getSheet("Data");
+		Row row = sheet1.getRow(a);
+		Cell cell = row.getCell(b);
+		if (cell == null) cell = row.createCell(b);
+		//cell.setCellType(Cell.CELL_TYPE_STRING);
+		cell.setCellValue(str);
 		
+		FileOutputStream fileOut = new FileOutputStream("D:/DataExcel.xls");
+		wb.write(fileOut);
+		fileOut.close();
 	}
 }
