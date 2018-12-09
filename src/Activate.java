@@ -1,11 +1,11 @@
+import java.io.IOException;
 
 public class Activate {
 	static ScreenActs screenActs = new ScreenActs();
 	static DataExchange dataExchange = new DataExchange();
-	
-	public static void main(String[] args) {
-		screenActs.LoginScreen();
-		dataExchange.GeneratingExcel();
+	static ActFlow actFlow = new ActFlow();
+	public static void main(String[] args) throws IOException {
+		actFlow.run();
 	}
 
 }
